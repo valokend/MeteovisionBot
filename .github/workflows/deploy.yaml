@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  run-bot:
+    run-bot:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
