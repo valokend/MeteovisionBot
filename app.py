@@ -466,7 +466,6 @@ async def get_weather_by_coords(lat: float, lon: float, units: str = 'metric', w
             'units': units,
             'lang': 'en'
         }
-        }
         async with session.get(WEATHER_API_URL, params=params) as response:
             if response.status == 200:
                 return await response.json()
