@@ -26,8 +26,6 @@ if WEATHER_API is None:
     print("Error: WEATHER_API_KEY environment variable not set.")
     exit() # Or raise an error
 
-bot = telebot.TeleBot(BOT_TOKEN)
-
 MAX_LOCATIONS = 10
 
 user_locations = {}
