@@ -5,17 +5,29 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQu
 import aiohttp
 from datetime import datetime
 import json
+import os
+import telebot
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
-TELEGRAM_TOKEN = '7646541759:AAFKfG_4K8KwaOIaWfG6qybPqcM_KmaG9UE'  # Replace with your token
-WEATHER_API_KEY = '177a10354e99d3951963b89608edbe16'  # Replace with your API key
+BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')
+WEATHER_API = os.environ.get('WEATHER_API_KEY')
 WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather'
 FORECAST_API_URL = 'https://api.openweathermap.org/data/2.5/forecast'
 GEOCODING_API_URL = 'http://api.openweathermap.org/geo/1.0/direct'
+
+if BOT_TOKEN is None:
+    print("Error: TELEGRAM_TOKEN environment variable not set.")
+    exit() # Or raise an error
+
+if WEATHER_API is None:
+    print("Error: WEATHER_API_KEY environment variable not set.")
+    exit() # Or raise an error
+
+bot = telebot.TeleBot(BOT_TOKEN)
 
 MAX_LOCATIONS = 10
 
