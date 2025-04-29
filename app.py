@@ -443,17 +443,17 @@ async def save_location(user_id: int, lat: float, lon: float, display_name: str)
     return True
 
 
-async def get_city_locations(city: str) -> list:  # Removed lang parameter
+async def get_city_locations(city: str) -> list:
     async with aiohttp.ClientSession() as session:
         params = {
             'q': city,
             'limit': 5,
-            'appid': WEATHER_API_KEY
+            'appid': WEATHER_API  # <--- CORRECTED: Use the variable holding the key
         }
         async with session.get(GEOCODING_API_URL, params=params) as response:
             if response.status == 200:
                 data = await response.json()
-                return data  # Return the raw data (English names)
+                return data
     return []
 
 
