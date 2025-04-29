@@ -448,7 +448,7 @@ async def get_city_locations(city: str) -> list:
         params = {
             'q': city,
             'limit': 5,
-            'appid': WEATHER_API  # <--- CORRECTED: Use the variable holding the key
+            'appid': WEATHER_API
         }
         async with session.get(GEOCODING_API_URL, params=params) as response:
             if response.status == 200:
@@ -462,9 +462,10 @@ async def get_weather_by_coords(lat: float, lon: float, units: str = 'metric', w
         params = {
             'lat': lat,
             'lon': lon,
-            'appid': WEATHER_API_KEY,
+            'appid': WEATHER_API,
             'units': units,
-            'lang': 'en'  # Always use English for weather description
+            'lang': 'en'
+        }
         }
         async with session.get(WEATHER_API_URL, params=params) as response:
             if response.status == 200:
@@ -477,9 +478,9 @@ async def get_forecast_by_coords(lat: float, lon: float, units: str = 'metric', 
         params = {
             'lat': lat,
             'lon': lon,
-            'appid': WEATHER_API_KEY,
+            'appid': WEATHER_API,  # <<< MAKE SURE THIS SAYS WEATHER_API
             'units': units,
-            'lang': 'en'  # Always use English for weather description
+            'lang': 'en'
         }
         async with session.get(FORECAST_API_URL, params=params) as response:
             if response.status == 200:
