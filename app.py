@@ -562,7 +562,7 @@ def format_forecast(forecast_data: dict, units: str, wind_units: str, user_id: i
 
 
 def main():
-    application = Application.builder().token(TELEGRAM_TOKEN).build()
+    application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.LOCATION, handle_location))
