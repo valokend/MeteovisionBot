@@ -98,6 +98,15 @@ def get_text(user_id: int, key: str) -> str:
     return LANGUAGES['en'][key]
 
 
+# Helper to initialize settings for a user if not already present
+def _ensure_user_settings_initialized(user_id: int):
+    if user_id not in user_settings:
+        logging.info(f"Initializing default settings for user_id: {user_id}")
+        user_settings[user_id] = {
+            'units': 'metric',
+            'wind_units': 'ms'
+        }
+
 def get_main_keyboard(user_id: int):
     return ReplyKeyboardMarkup([
         [get_text(user_id, 'weather'), get_text(user_id, 'forecast')],
@@ -148,11 +157,7 @@ def format_location_list(locations, user_id: int):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    if user_id not in user_settings:
-        user_settings[user_id] = {
-            'units': 'metric',
-            'wind_units': 'ms'  # Default wind speed unit
-        }
+    _ensure_user_settings_initialized(user_id)
 
     welcome_text = "👋 Welcome! I'm a weather bot.\n🔍 Choose an option:"
 
@@ -165,6 +170,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     user_id = update.effective_user.id
+    _ensure_user_settings_initialized(user_id)
 
     # Remove emojis from text for comparison
     clean_text = text.replace('🌤 ', '').replace('📅 ', '').replace('📍 ', '') \
@@ -324,6 +330,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     user_id = update.effective_user.id
+    _ensure_user_settings_initialized(user_id)
     data = query.data.split('_')
     action = data[0]
 
@@ -388,6 +395,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_location(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
+    _ensure_user_settings_initialized(user_id)
     location = update.message.location
 
     if location:
